@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "TankPlayerController.h"
+#include "Tank.h"
+#include "Engine/World.h"
 
 void ATankPlayerController::BeginPlay()
 {
@@ -33,6 +34,9 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!GetControlledTank()) { return; }
 
 	FVector HitLocation; // Out parameter
+
+	auto Time = GetWorld()->GetTimeSeconds();
+	UE_LOG(LogTemp, Warning, TEXT("%f: Aim TOWARDS CRSOSRAHSA COALD "), Time);
 
 	if (GetSightRayHitLocation(HitLocation))
 	{
