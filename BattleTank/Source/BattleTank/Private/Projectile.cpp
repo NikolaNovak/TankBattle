@@ -5,6 +5,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 #include "Engine/World.h"
 
 // Sets default values
@@ -21,12 +22,15 @@ AProjectile::AProjectile()
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
 	LaunchBlast->SetupAttachment(CollisionMesh);
 
+	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile movement component"));
+	ProjectileMovement->bAutoActivate = false;
+
 	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
 	ImpactBlast->SetupAttachment(CollisionMesh);
 	ImpactBlast->bAutoActivate = false;
 
-	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile movement component"));
-	ProjectileMovement->bAutoActivate = false;
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion force"));
+	ExplosionForce->SetupAttachment(CollisionMesh);
 }
 
 // Called when the game starts or when spawned
@@ -46,5 +50,6 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 {
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
+	ExplosionForce->FireImpulse();
 }
 
