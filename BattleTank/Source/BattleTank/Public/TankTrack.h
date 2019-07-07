@@ -18,22 +18,15 @@ private:
 
 	UTankTrack();
 
-	virtual void BeginPlay() override;
+	TArray<class ASprungWheel*> GetWheels() const;
 
-	void ApplySidewaysForce();
-
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-
-	float CurrentThrottle = 0;
+	void DriveTrack(float CurrentThrottle);
 
 public:
 
 	//Sets a throttle between -1 and +1
 	UFUNCTION(Blueprintcallable, Category = "Input")
 	void SetThrottle(float Throttle);
-
-	void DriveTrack();
 
 	// Max force per track in Newtons
 	UPROPERTY(EditDefaultsOnly)
